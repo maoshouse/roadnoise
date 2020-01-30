@@ -10,7 +10,5 @@ class Reporter(ABC):
         return self.__name
 
     @abstractmethod
-    def report(self):
+    def report(self, record):
         pass
-
-
