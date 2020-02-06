@@ -1,4 +1,4 @@
-from .reporter import Reporter
+from roadnoise.reporter.reporter import Reporter
 
 
 class LogReporter(Reporter):
