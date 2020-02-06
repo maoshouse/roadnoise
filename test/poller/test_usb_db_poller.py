@@ -5,7 +5,7 @@ from unittest.mock import Mock
 from roadnoise.poller.usb_db_poller import USBDbPoller
 
 
-class USBDBPollerTest(unittest.TestCase):
+class TestUSBDBPoller(unittest.TestCase):
 
     def test_poll(self):
         device = Mock()

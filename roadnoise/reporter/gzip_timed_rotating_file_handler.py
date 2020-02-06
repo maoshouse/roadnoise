@@ -1,30 +1,40 @@
-import datetime
 import gzip
+import os
 import shutil
 from logging.handlers import TimedRotatingFileHandler
-from os import listdir, remove
 from os.path import dirname, join, exists
+from pathlib import Path
 
 
 class GzipTimedRotatingFileHandler(TimedRotatingFileHandler):
-    def __init__(self, log_root, when, interval, backup_count):
-        super().__init__(self.__getLogPath(), when=when, interval=interval, backupCount=backup_count)
-        self.__log_root = log_root
 
-    def __getLogPath(self):
-        return "{}/{}/report".format(self.__log_root, datetime.utcnow())
+    def __init__(self, file_name_prefix, log_root, when, interval, backup_count):
+        super().__init__(self.__get_log_path(file_name_prefix + ".log", log_root), when=when, interval=interval,
+                         backupCount=backup_count)
+        self.__file_name_prefix = file_name_prefix
+        self.__log_root = log_root
 
     # https://medium.com/@rahulraghu94/overriding-pythons-timedrotatingfilehandler-to-compress-your-log-files-iot-c766a4ace240
     def doRollover(self):
-        super(TimedRotatingFileHandler, self).doRollover()
+        super().doRollover()
+        self.compress_logs()
+
+    def compress_logs(self):
         log_dir = dirname(self.baseFilename)
+        files_to_compress = [join(log_dir, file) for file in os.listdir(log_dir) if
+                             file.startswith(self.__file_name_prefix) and not file.endswith((".gz", ".log"))]
+        for file in files_to_compress:
+            if exists(file):
+                with open(file, "rb") as to_compress, gzip.open(self.__get_rollover_path(file), "wb") as compressed:
+                    shutil.copyfileobj(to_compress, compressed)
+            os.remove(file)
 
-        to_compress = [
-            join(log_dir, f) for f in listdir(log_dir)
-        ]
+    def __get_log_path(self, file_name, log_root):
+        report_dir = "{}/report".format(log_root)
+        Path(report_dir).mkdir(parents=True, exist_ok=True)
+        return report_dir + "/" + file_name
 
-        for f in to_compress:
-            if exists(f):
-                with open(f, "rb") as _old, gzip.open(f + ".gz", "wb") as _new:
-                    shutil.copyfileobj(_old, _new)
-                remove(f)
+    def __get_rollover_path(self, file):
+        rollover_dir = "{}/report/compressed".format(self.__log_root)
+        Path(rollover_dir).mkdir(parents=True, exist_ok=True)
+        return "{}/{}.gz".format(rollover_dir, file.split('/')[-1])
