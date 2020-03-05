@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from roadnoise.reporter.gzip_timed_rotating_file_handler import GzipTimedRotatingFileHandler
+from roadnoise.logging.gzip_timed_rotating_file_handler import GzipTimedRotatingFileHandler
 
 
 class TestGzipTimedRotatingFileHandler(unittest.TestCase):

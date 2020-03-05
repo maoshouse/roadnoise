@@ -1,6 +1,6 @@
 import logging
 
-
+# TODO pass in a Logger interface rather than build a python logger.
 class CsvLogger:
     def __init__(self, name, log_file_handler):
         self.__logger = logging.getLogger(name)
