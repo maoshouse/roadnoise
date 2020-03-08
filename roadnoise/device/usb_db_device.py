@@ -1,16 +1,16 @@
 import random
 
-from .poller import Poller
+from .device import Device
 
 
-class USBDbPoller(Poller):
+class USBDbDevice(Device):
     GET_STATE_REQUEST = [0xb3, random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 0, 0, 0, 0]
 
     def __init__(self, name, device):
         super().__init__(name)
         self.__device = device
 
-    def poll(self):
+    def read(self):
         self.__device.write(self.GET_STATE_REQUEST)
         read_value = self.__device.read(8)
         if len(read_value) == 8:

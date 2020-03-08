@@ -1,7 +1,7 @@
 class Reporter:
-    def __init__(self, name, poller, logger):
+    def __init__(self, name, device, logger):
         self.__name = name
-        self.__poller = poller
+        self.__device = device
         self.__logger = logger
 
     @property
@@ -9,5 +9,5 @@ class Reporter:
         return self.__name
 
     def report(self):
-        polled_value = self.__poller.poll()
-        self.__logger.log(polled_value)
+        read_value = self.__device.read()
+        self.__logger.log(read_value)

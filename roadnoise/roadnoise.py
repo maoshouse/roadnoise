@@ -1,6 +1,6 @@
 import hid
 
-from .poller.usb_db_poller import USBDbPoller
+from .device.usb_db_device import USBDbDevice
 
 ID_VENDOR = 0x64bd
 ID_PRODUCT = 0x74e3
@@ -8,7 +8,7 @@ ID_PRODUCT = 0x74e3
 
 def main():
     usb_db_meter = __get_usb_decibel_meter()
-    usb_db_poller = USBDbPoller("USB Db", usb_db_meter)
+    usb_db_poller = USBDbDevice("USB Db", usb_db_meter)
 
 
 def __get_usb_decibel_meter():

@@ -7,12 +7,12 @@ from roadnoise.reporter.reporter import Reporter
 class TestReporter(unittest.TestCase):
 
     def test_report(self):
-        poller = Mock()
+        device = Mock()
         logger = Mock()
 
-        reporter = Reporter("reporter", poller, logger)
+        reporter = Reporter("reporter", device, logger)
 
         reporter.report()
 
-        poller.poll.assert_called()
+        device.read.assert_called()
         logger.log.assert_called()

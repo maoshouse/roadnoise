@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Poller(ABC):
+class Device(ABC):
     def __init__(self, name):
         assert name is not None
         self.__name = name
@@ -11,5 +11,5 @@ class Poller(ABC):
         return self.__name
 
     @abstractmethod
-    def poll(self):
+    def read(self):
         pass
