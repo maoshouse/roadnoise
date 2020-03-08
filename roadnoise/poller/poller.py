@@ -13,5 +13,3 @@ class Poller(ABC):
     @abstractmethod
     def poll(self):
         pass
-
-
