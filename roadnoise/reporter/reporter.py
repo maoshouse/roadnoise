@@ -1,13 +1,23 @@
+import time
+from concurrent.futures.thread import ThreadPoolExecutor
+
+
 class Reporter:
-    def __init__(self, name, device, logger):
-        self.__name = name
-        self.__device = device
+    def __init__(self, pollers, logger, period_seconds):
+        self.__threadpool_executor = ThreadPoolExecutor(1)
+        self.__pollers = pollers
         self.__logger = logger
+        self.__period_seconds = period_seconds
+        self.__started = False
 
-    @property
-    def name(self):
-        return self.__name
+    def start(self):
+        self.__started = True
+        self.__threadpool_executor.submit(self.__report)
 
-    def report(self):
-        read_value = self.__device.read()
-        self.__logger.log(read_value)
+    def stop(self):
+        self.__started = False
+
+    def __report(self):
+        while self.__started:
+            self.__logger.log([poller.value for poller in self.__pollers])
+            time.sleep(self.__period_seconds)
