@@ -15,6 +15,7 @@ class Reporter:
         for poller in self.__pollers:
             poller.start()
         self.__threadpool_executor.submit(self.__report)
+        print("started reporter")
 
     def stop(self):
         for poller in self.__pollers:
