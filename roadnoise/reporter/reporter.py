@@ -22,6 +22,7 @@ class Reporter:
         self.__started = False
 
     def __report(self):
+        print("entering report method.")
         while self.__started:
             print("reporting to log.")
             self.__logger.log([poller.value for poller in self.__pollers])
