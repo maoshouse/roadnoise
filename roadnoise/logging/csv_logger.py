@@ -8,4 +8,5 @@ class CsvLogger:
         self.__logger.addHandler(log_file_handler)
 
     def log(self, record):
+        print("logging: ", record)
         self.__logger.info(",".join(record))
