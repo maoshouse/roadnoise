@@ -1,6 +1,8 @@
 import logging
 
 # TODO pass in a Logger interface rather than build a python logger.
+
+
 class CsvLogger:
     def __init__(self, name, log_file_handler):
         self.__logger = logging.getLogger(name)
@@ -8,4 +10,4 @@ class CsvLogger:
         self.__logger.addHandler(log_file_handler)
 
     def log(self, record):
-        self.__logger.info(",".join(record))
+        self.__logger.info(",".join(str(value) for value in record))

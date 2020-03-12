@@ -7,6 +7,7 @@ verify_ssl = true
 
 [packages]
 hidapi = "*"
+readerwriterlock = "*"
 
 [requires]
 python_version = "3.7"

@@ -2,6 +2,7 @@ import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
 
+# Consider implement "with"
 class Reporter:
     def __init__(self, pollers, logger, period_seconds):
         self.__threadpool_executor = ThreadPoolExecutor(1)
