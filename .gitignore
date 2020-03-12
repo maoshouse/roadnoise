@@ -1,2 +1,3 @@
 logroot
 __pycache__
+*.pyc
