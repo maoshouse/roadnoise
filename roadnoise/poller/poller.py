@@ -1,4 +1,3 @@
-import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
 
@@ -25,4 +24,4 @@ class Poller:
         while self.__started:
             self.__value = self.__device.read()
             print("Polled: ", self.__value)
-            time.sleep(self.__period_seconds)
+            # time.sleep(self.__period_seconds)
