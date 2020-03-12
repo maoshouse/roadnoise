@@ -12,9 +12,13 @@ class Reporter:
 
     def start(self):
         self.__started = True
+        for poller in self.__pollers:
+            poller.start()
         self.__threadpool_executor.submit(self.__report)
 
     def stop(self):
+        for poller in self.__pollers:
+            poller.stop()
         self.__started = False
 
     def __report(self):
