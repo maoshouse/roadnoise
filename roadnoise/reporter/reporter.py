@@ -23,5 +23,6 @@ class Reporter:
 
     def __report(self):
         while self.__started:
+            print("reporting to log.")
             self.__logger.log([poller.value for poller in self.__pollers])
             time.sleep(self.__period_seconds)
