@@ -26,5 +26,4 @@ class Poller:
             value = self.__device.read()
             if value is not None:
                 self.__value = value
-            print("Polled value: ", value, "Stored value: ", self.__value)
             time.sleep(self.__period_seconds)
