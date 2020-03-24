@@ -12,7 +12,7 @@ ID_PRODUCT = 0x74e3
 
 def main():
     usb_db_device = USBDbDevice("USB Db", get_usb_decibel_meter())
-    usb_db_poller = Poller(usb_db_device, 1)
+    usb_db_poller = Poller(usb_db_device)
     pollers = [usb_db_poller]
     file_handler = GzipTimedRotatingFileHandler("roadnoise", ".", "h", 1, 7)
     logger = CsvLogger("logger", file_handler)
