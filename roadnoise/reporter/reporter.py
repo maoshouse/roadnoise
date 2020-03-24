@@ -26,7 +26,7 @@ class Reporter:
         while self.__started:
             print("reporting to log.")
             self.__logger.log(['a', 'b', 'c'])
-            self.__logger.log([poller.value for poller in self.__pollers])
+            self.__logger.log(self.__pollers[0].value)
             print("reported to log.")
 
             # time.sleep(self.__period_seconds)
