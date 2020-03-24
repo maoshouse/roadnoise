@@ -23,6 +23,8 @@ class Poller:
 
     def __poll(self):
         while self.__started:
-            self.__value = self.__device.read()
-            print("Polled: ", self.__value)
+            value = self.__device.read()
+            if value is not None:
+                self.__value = value
+            print("Polled value: ", value, "Stored value: ", self.__value)
             time.sleep(self.__period_seconds)
