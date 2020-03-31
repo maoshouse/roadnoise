@@ -1,3 +1,4 @@
+import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
 
@@ -27,5 +28,6 @@ class Reporter:
             print("reporting to log.")
             self.__logger.log([poller.value for poller in self.__pollers])
             print("reported to log.")
-
+            print("reporter sleeping")
             time.sleep(self.__period_seconds)
+            print("reporter wake")
