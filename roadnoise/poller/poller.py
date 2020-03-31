@@ -5,7 +5,7 @@ from readerwriterlock import rwlock
 
 
 class Poller:
-    def __init__(self, device, period_seconds=0.15):
+    def __init__(self, device, period_seconds=0.5):
         self.__threadpool_executor = ThreadPoolExecutor(1)
         self.__device = device
         self.__period_seconds = period_seconds
