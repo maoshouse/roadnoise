@@ -1,6 +1,8 @@
 import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
+from readerwriterlock import rwlock
+
 
 class Poller:
     def __init__(self, device, period_seconds=0.15):
@@ -8,6 +10,7 @@ class Poller:
         self.__device = device
         self.__period_seconds = period_seconds
         self.__started = False
+        self.__value_lock = rwlock.RWLockFair()
         self.__value = None
 
     def start(self):
@@ -19,11 +22,13 @@ class Poller:
 
     @property
     def value(self):
-        return self.__value
+        with self.__value_lock.gen_rlock():
+            return self.__value
 
     def __poll(self):
         while self.__started:
-            value = self.__device.read()
-            if value is not None:
-                self.__value = value
+            with self.__value_lock.gen_wlock():
+                value = self.__device.read()
+                if value is not None:
+                    self.__value = value
             time.sleep(self.__period_seconds)
