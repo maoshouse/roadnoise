@@ -24,7 +24,8 @@ class Poller:
     def value(self):
         with self.__value_lock.gen_rlock():
             print("got rlock")
-            return self.__value
+            return "lol this is a value"
+            # return self.__value
 
     def __poll(self):
         while self.__started:
@@ -32,5 +33,6 @@ class Poller:
                 print("got wlock")
                 value = self.__device.read()
                 if value is not None:
-                    self.__value = value
+                    print("got value ", value)
+            # self.__value = value
             time.sleep(self.__period_seconds)
