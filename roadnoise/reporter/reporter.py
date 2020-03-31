@@ -28,4 +28,4 @@ class Reporter:
             self.__logger.log([poller.value for poller in self.__pollers])
             print("reported to log.")
 
-            # time.sleep(self.__period_seconds)
+            time.sleep(self.__period_seconds)
