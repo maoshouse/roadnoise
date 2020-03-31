@@ -23,11 +23,13 @@ class Poller:
     @property
     def value(self):
         with self.__value_lock.gen_rlock():
+            print("got rlock")
             return self.__value
 
     def __poll(self):
         while self.__started:
             with self.__value_lock.gen_wlock():
+                print("got wlock")
                 value = self.__device.read()
                 if value is not None:
                     self.__value = value
