@@ -1,7 +1,7 @@
 import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
-from readerwriterlock import rwlock
+from roadnoise.model.thread_safe_value import ThreadSafeValue
 
 
 class Poller:
@@ -10,8 +10,7 @@ class Poller:
         self.__device = device
         self.__period_seconds = period_seconds
         self.__started = False
-        self.__value_lock = rwlock.RWLockFair()
-        self.__value = None
+        self.__value = ThreadSafeValue()
 
     def start(self):
         self.__started = True
@@ -22,16 +21,12 @@ class Poller:
 
     @property
     def value(self):
-        with self.__value_lock.gen_rlock():
-            print("got rlock")
-            return self.__value
+        return self.__value.value
 
     def __poll(self):
         while self.__started:
-            with self.__value_lock.gen_wlock():
-                print("got wlock")
-                value = self.__device.read()
-                if value is not None:
-                    print("got value ", value)
-                    self.__value = value
+            value = self.__device.read()
+            if value is not None:
+                print("got value ", value)
+                self.__value.value = value
             time.sleep(self.__period_seconds)
