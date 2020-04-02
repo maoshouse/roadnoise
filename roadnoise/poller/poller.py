@@ -32,4 +32,6 @@ class Poller:
             if value is not None:
                 print("got value ", value)
                 self.__value.value = value
+            print("poller sleeping.")
             time.sleep(self.__period_seconds)
+            print("poller wake")
