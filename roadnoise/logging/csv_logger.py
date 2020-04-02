@@ -10,3 +10,4 @@ class CsvLogger:
     def log(self, record):
         print("logging: ", record)
         self.__logger.info(",".join(record))
+        print("logged: ", record)

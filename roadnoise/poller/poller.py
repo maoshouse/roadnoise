@@ -21,7 +21,10 @@ class Poller:
 
     @property
     def value(self):
-        return self.__value.value
+        try:
+            return self.__value.value
+        finally:
+            print("returned value")
 
     def __poll(self):
         while self.__started:
