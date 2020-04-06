@@ -13,7 +13,7 @@ class CsvLogger:
     def log(self, record):
         print("logging: ", record)
         try:
-            self.__logger.info(",".join(record))
+            self.__logger.info(",".join(str(value) for value in record))
         except:
             print("Unexpected error:", sys.exc_info()[0])
         print("logged: ", record)
