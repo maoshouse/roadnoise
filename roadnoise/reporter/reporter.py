@@ -24,11 +24,5 @@ class Reporter:
 
     def __report(self):
         while self.__started:
-            record = [poller.value for poller in self.__pollers]
-            if self.__should_log(record):
-                self.__logger.log(record)
+            self.__logger.log([poller.value for poller in self.__pollers])
             time.sleep(self.__period_seconds)
-
-    def __should_log(self, record):
-        record_set = set(record)
-        return not (len(record_set) == 1 and None in record_set)

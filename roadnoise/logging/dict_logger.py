@@ -1,13 +1,16 @@
 import logging
 
 # TODO pass in a Logger interface rather than build a python logger.
+import time
 
 
-class CsvLogger:
+class DictLogger:
     def __init__(self, name, log_file_handler):
         self.__logger = logging.getLogger(name)
         self.__logger.setLevel(logging.INFO)
         self.__logger.addHandler(log_file_handler)
 
-    def log(self, record):
-        self.__logger.info(",".join(str(value) for value in record))
+    def log(self, poller_values):
+        log_line = {key: value for mapping in poller_values for key, value in mapping.items()}
+        log_line['time'] = time.time_ns() // 1000
+        self.__logger.info(log_line)

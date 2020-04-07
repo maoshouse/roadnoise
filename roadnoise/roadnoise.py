@@ -1,7 +1,7 @@
 import hid
 
 from .device.usb_db_device import USBDbDevice
-from .logging.csv_logger import CsvLogger
+from .logging.dict_logger import DictLogger
 from .logging.gzip_timed_rotating_file_handler import GzipTimedRotatingFileHandler
 from .poller.poller import Poller
 from .reporter.reporter import Reporter
@@ -15,7 +15,7 @@ def main():
     usb_db_poller = Poller(usb_db_device)
     pollers = [usb_db_poller]
     file_handler = GzipTimedRotatingFileHandler("roadnoise", ".", "h", 1, 7)
-    logger = CsvLogger("logger", file_handler)
+    logger = DictLogger("logger", file_handler)
     reporter = Reporter(pollers, logger, 1)
     reporter.start()
     try:

@@ -14,7 +14,7 @@ class USBDbDevice(Device):
         self.__device.write(self.GET_STATE_REQUEST)
         read_value = self.__device.read(8)
         if len(read_value) == 8:
-            return self.__determine_db(read_value)
+            return {'db': self.__determine_db(read_value)}
 
     def __determine_db(self, read_value):
         return (read_value[0] << 8 | read_value[1]) / 10

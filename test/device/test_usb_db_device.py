@@ -10,4 +10,4 @@ class TestUSBDBDevice(unittest.TestCase):
         device = Mock()
         device.read.return_value = [1, 2, 3, 4, 5, 6, 7, 8]
         usb_db_device = USBDbDevice("name", device)
-        self.assertEqual(25.8, usb_db_device.read())
+        self.assertEqual({'db': 25.8}, usb_db_device.read())
