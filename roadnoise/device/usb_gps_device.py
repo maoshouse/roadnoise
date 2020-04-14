@@ -15,7 +15,9 @@ class USBGpsDevice(Device):
     def read(self):
         read_value = [value.strip() for value in bytearray(self.__device.readline()).decode().split(',')]
         if self.__is_gprmc(read_value) and self.__is_gprmc_valid(read_value):
-            return {'gps': self.__parse_gprmc(read_value)}
+            gprmc = self.__parse_gprmc(read_value)
+            print(gprmc)
+            return {'gps': gprmc}
 
     def __is_gprmc(self, read_value):
         return self.NMEA_GPRMC == read_value[0]
