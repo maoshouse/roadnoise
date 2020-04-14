@@ -1,4 +1,5 @@
 import time
+import traceback
 from concurrent.futures.thread import ThreadPoolExecutor
 
 
@@ -24,5 +25,8 @@ class Reporter:
 
     def __report(self):
         while self.__started:
-            self.__logger.log([poller.value for poller in self.__pollers])
-            time.sleep(self.__period_seconds)
+            try:
+                self.__logger.log([poller.value for poller in self.__pollers])
+                time.sleep(self.__period_seconds)
+            except:
+                print(traceback.format_exc())
