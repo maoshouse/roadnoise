@@ -13,6 +13,7 @@ class USBGpsDevice(Device):
         self.__device = device
 
     def read(self):
+        print("reading gps")
         read_value = [value.strip() for value in bytearray(self.__device.readline()).decode().split(',')]
         if self.__is_gprmc(read_value) and self.__is_gprmc_valid(read_value):
             gprmc = self.__parse_gprmc(read_value)
