@@ -25,6 +25,7 @@ class Poller:
 
     def __poll(self):
         while self.__started:
+            print("polling.")
             value = self.__device.read()
             if value is not None:
                 self.__value.value = value
