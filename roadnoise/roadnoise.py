@@ -15,7 +15,11 @@ ID_PRODUCT = 0x74e3
 def main():
     usb_db_device = USBDbDevice("USB Db", get_usb_decibel_meter())
     usb_db_poller = Poller(usb_db_device)
-    usb_gps_device = USBGpsDevice("USB GPS", get_usb_gps())
+
+    gps_serial = get_usb_gps()
+    print("USB GPS: ", gps_serial)
+    usb_gps_device = USBGpsDevice("USB GPS", gps_serial)
+
     usb_gps_poller = Poller(usb_gps_device)
     pollers = [usb_gps_poller]
     file_handler = GzipTimedRotatingFileHandler("roadnoise", ".", "h", 1, 7)
