@@ -1,3 +1,4 @@
+import sys
 import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
@@ -25,8 +26,11 @@ class Poller:
 
     def __poll(self):
         while self.__started:
-            print("polling.")
-            value = self.__device.read()
-            if value is not None:
-                self.__value.value = value
-            time.sleep(self.__period_seconds)
+            try:
+                print("polling.")
+                value = self.__device.read()
+                if value is not None:
+                    self.__value.value = value
+                time.sleep(self.__period_seconds)
+            except:
+                print("Unexpected error:", sys.exc_info()[0])
