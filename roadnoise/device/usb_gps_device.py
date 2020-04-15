@@ -14,7 +14,9 @@ class USBGpsDevice(Device):
 
     def read(self):
         print("reading gps")
-        gps_val = bytearray(self.__device.readline()).decode().split(',')
+        v = self.__device.readline()
+        print("raw line: ", v)
+        gps_val = bytearray(v).decode().split(',')
         print(gps_val)
         read_value = [value.strip() for value in gps_val]
         if self.__is_gprmc(read_value) and self.__is_gprmc_valid(read_value):
