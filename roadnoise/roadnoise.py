@@ -16,11 +16,9 @@ def main():
     usb_db_device = USBDbDevice("USB Db", get_usb_decibel_meter())
     usb_db_poller = Poller(usb_db_device)
 
-    gps_serial = get_usb_gps()
-    print("USB GPS: ", gps_serial)
-    usb_gps_device = USBGpsDevice("USB GPS", gps_serial)
-
+    usb_gps_device = USBGpsDevice("USB GPS", get_usb_gps())
     usb_gps_poller = Poller(usb_gps_device)
+    
     pollers = [usb_db_poller, usb_gps_poller]
     file_handler = GzipTimedRotatingFileHandler("roadnoise", ".", "h", 1, 7)
     logger = DictLogger("logger", file_handler)
