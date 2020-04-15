@@ -1,5 +1,5 @@
-import sys
 import time
+import traceback
 from concurrent.futures.thread import ThreadPoolExecutor
 
 from roadnoise.model.thread_safe_value import ThreadSafeValue
@@ -27,10 +27,9 @@ class Poller:
     def __poll(self):
         while self.__started:
             try:
-                print("polling.")
                 value = self.__device.read()
                 if value is not None:
                     self.__value.value = value
                 time.sleep(self.__period_seconds)
             except:
-                print("Unexpected error:", sys.exc_info()[0])
+                print(traceback.format_exc())

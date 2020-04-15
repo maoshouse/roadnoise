@@ -13,4 +13,5 @@ class DictLogger:
     def log(self, poller_values):
         log_line = {key: value for mapping in poller_values for key, value in mapping.items()}
         log_line['time'] = time.time_ns() // 1000
+        print("logline: ", log_line)
         self.__logger.info(log_line)
