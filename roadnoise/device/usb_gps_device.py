@@ -31,7 +31,7 @@ class USBGpsDevice(Device):
     def __parse_gprmc(self, read_value):
         try:
             return {
-                'time_stamp': int(read_value[1]),
+                'time_stamp': float(read_value[1]),
                 'validity': read_value[2],
                 'latitude': float(read_value[3]),
                 'latitude_hemisphere': read_value[4],
@@ -39,7 +39,7 @@ class USBGpsDevice(Device):
                 'longitude_hemisphere': read_value[6],
                 'speed': float(read_value[7]),
                 'true_course': float(read_value[8]),
-                'date_stamp': int(read_value[9]),
+                'date_stamp': float(read_value[9]),
             }
         except ValueError:
             print("ValueError for read value: ", read_value)
