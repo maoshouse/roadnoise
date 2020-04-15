@@ -29,6 +29,8 @@ class Poller:
             try:
                 value = self.__device.read()
                 if value is not None:
+                    if self.__device.name == "USB Db":
+                        print("Got new DB value: ", value)
                     self.__value.value = value
                 time.sleep(self.__period_seconds)
             except:
