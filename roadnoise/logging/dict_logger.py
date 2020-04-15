@@ -11,6 +11,7 @@ class DictLogger:
         self.__logger.addHandler(log_file_handler)
 
     def log(self, poller_values):
+        print("poller values: ", poller_values)
         if self.__is_valid_values(poller_values):
             log_line = {key: value for mapping in poller_values for key, value in mapping.items()}
             log_line['time'] = time.time_ns() // 1000
