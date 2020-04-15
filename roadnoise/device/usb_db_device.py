@@ -14,6 +14,7 @@ class USBDbDevice(Device):
         print("im trying to read")
         self.__device.write(self.GET_STATE_REQUEST)
         read_value = self.__device.read(8)
+        print(read_value)
         if len(read_value) == 8:
             return {'db': self.__determine_db(read_value)}
 
