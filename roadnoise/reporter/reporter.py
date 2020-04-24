@@ -2,8 +2,10 @@ import time
 import traceback
 from concurrent.futures.thread import ThreadPoolExecutor
 
-
 # Consider implement "with"
+from roadnoise.logging.application_logger import ApplicationLogger
+
+
 class Reporter:
     def __init__(self, pollers, logger, period_seconds):
         self.__threadpool_executor = ThreadPoolExecutor(1)
@@ -29,4 +31,4 @@ class Reporter:
                 self.__logger.log([poller.value for poller in self.__pollers])
                 time.sleep(self.__period_seconds)
             except:
-                print(traceback.format_exc())
+                ApplicationLogger.error(traceback.format_exc())

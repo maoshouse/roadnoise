@@ -1,7 +1,8 @@
 from .device import Device
 
-
 # https://www.egr.msu.edu/classes/ece480/capstone/spring15/group14/uploads/4/2/0/3/42036453/wilsonappnote.pdf
+from ..logging.application_logger import ApplicationLogger
+
 
 class USBGpsDevice(Device):
     NMEA_GPGGA = '$GPGGA'
@@ -23,7 +24,7 @@ class USBGpsDevice(Device):
         try:
             return [value.strip() for value in bytearray(line).decode().split(',')]
         except UnicodeDecodeError:
-            print("UnicodeDecodeError for line: ", line)
+            ApplicationLogger.error("UnicodeDecodeError for line: ", line)
 
     def __is_gprmc(self, read_value):
         return self.NMEA_GPRMC == read_value[0]
@@ -42,7 +43,7 @@ class USBGpsDevice(Device):
                 'date_stamp': float(read_value[9]),
             }
         except ValueError:
-            print("ValueError for read value: ", read_value)
+            ApplicationLogger.error("ValueError for read value: ", read_value)
 
     def __is_gprmc_valid(self, read_value):
         return self.GPRMC_OK == read_value[2]

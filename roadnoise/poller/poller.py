@@ -2,6 +2,7 @@ import time
 import traceback
 from concurrent.futures.thread import ThreadPoolExecutor
 
+from roadnoise.logging.application_logger import ApplicationLogger
 from roadnoise.model.thread_safe_value import ThreadSafeValue
 
 
@@ -32,4 +33,4 @@ class Poller:
                     self.__value.value = value
                 time.sleep(self.__period_seconds)
             except:
-                print(traceback.format_exc())
+                ApplicationLogger.error(traceback.format_exc())
