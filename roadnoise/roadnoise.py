@@ -1,3 +1,5 @@
+import logging
+
 import hid
 import serial
 
@@ -13,14 +15,15 @@ ID_PRODUCT = 0x74e3
 
 
 def main():
+    initialize_application_log()
     usb_db_device = USBDbDevice("USB Db", get_usb_decibel_meter())
     usb_db_poller = Poller(usb_db_device, period_seconds=0.1)
 
     usb_gps_device = USBGpsDevice("USB GPS", get_usb_gps())
     usb_gps_poller = Poller(usb_gps_device)
-    
+
     pollers = [usb_db_poller, usb_gps_poller]
-    file_handler = GzipTimedRotatingFileHandler("roadnoise", ".", "h", 1, 7)
+    file_handler = GzipTimedRotatingFileHandler("roadnoise", "logs", "h", 1, 7)
     logger = DictLogger("RoadNoiseLog", file_handler)
     reporter = Reporter(pollers, logger, 1)
     reporter.start()
@@ -39,5 +42,20 @@ def get_usb_decibel_meter():
     assert usb_decibel_meter is not None
     return usb_decibel_meter
 
+
 def get_usb_gps():
     return serial.Serial('/dev/ttyUSB0', 4800, timeout=5)
+
+
+def initialize_application_log():
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.ERROR)
+    file_handler = logging.handlers.GzipTimedRotatingFileHandler("application", "logs", "h", 1, 7)
+    file_handler.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(formatter)
+    file_handler.setFormatter(formatter)
+    application_logger = logging.getLogger('application_log')
+    application_logger.setLevel(logging.INFO)
+    application_logger.addHandler(console_handler)
+    application_logger.addHandler(file_handler)

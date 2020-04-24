@@ -30,11 +30,10 @@ class GzipTimedRotatingFileHandler(TimedRotatingFileHandler):
             os.remove(file)
 
     def __get_log_path(self, file_name, log_root):
-        report_dir = "{}/report".format(log_root)
-        Path(report_dir).mkdir(parents=True, exist_ok=True)
-        return report_dir + "/" + file_name
+        Path(log_root).mkdir(parents=True, exist_ok=True)
+        return log_root + "/" + file_name
 
     def __get_rollover_path(self, file):
-        rollover_dir = "{}/report/compressed".format(self.__log_root)
+        rollover_dir = "{}/compressed".format(self.__log_root)
         Path(rollover_dir).mkdir(parents=True, exist_ok=True)
         return "{}/{}.gz".format(rollover_dir, file.split('/')[-1])
