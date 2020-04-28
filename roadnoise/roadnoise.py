@@ -1,8 +1,11 @@
+import traceback
+
 import hid
 import serial
 
 from .device.usb_db_device import USBDbDevice
 from .device.usb_gps_device import USBGpsDevice
+from .exporter.s3_exporter import S3Exporter
 from .logging.application_logger import ApplicationLogger
 from .logging.dict_logger import DictLogger
 from .logging.gzip_timed_rotating_file_handler import GzipTimedRotatingFileHandler
@@ -30,10 +33,22 @@ def main():
     try:
         while True:
             pass
+    except:
+        ApplicationLogger.error(traceback.format_exc())
     finally:
         ApplicationLogger.info("Stopping roadnoise.")
         reporter.stop()
 
+    try:
+        ApplicationLogger.info("Starting rollover")
+        file_handler.doRollover()
+        ApplicationLogger.info("finished rollover, starting export.")
+        s3_exporter = S3Exporter(delete_exported=True)
+        ApplicationLogger.info(s3_exporter)
+        s3_exporter.export('logs/compressed', 'ktadifkng1')
+    except:
+        ApplicationLogger.error(traceback.format_exc())
+        
     exit(0)
 
 
