@@ -1,0 +1,32 @@
+import os
+from os.path import join
+
+import boto3
+from botocore.exceptions import ClientError
+
+from roadnoise.logging.application_logger import ApplicationLogger
+
+
+class S3Exporter:
+    def __init__(self, delete_exported=False):
+        self.__s3 = boto3.resource('s3')
+        self.__delete_exported = delete_exported
+
+    def export(self, directory, bucket):
+        files_to_export = [join(directory, file) for file in os.listdir(directory) if file.endswith('.gz')]
+        num_exported = 0
+        for file_path in files_to_export:
+            ApplicationLogger.info(
+                "Exporting {file_path} ({num_exported} / {total_files})".format(file_path, ++num_exported,
+                                                                                len(files_to_export)))
+            self.__upload(file_path, bucket)
+            if self.__delete_exported:
+                os.remove(file_path)
+
+    def __upload(self, file_path, bucket):
+        try:
+            object_name = file_path.split()[-1]
+            self.__s3.upload_file(file_path, bucket, object_name)
+        except ClientError as e:
+            return ApplicationLogger.error(e)
+        return True
