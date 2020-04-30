@@ -14,14 +14,13 @@ class S3Exporter:
         self.__delete_exported = delete_exported
 
     def export(self, directory, bucket):
-        ApplicationLogger.info("Exporting to bucket {bucket}".format(bucket))
+        ApplicationLogger.info("Exporting to bucket {b}".format(b=bucket))
         files_to_export = [join(directory, file) for file in os.listdir(directory) if file.endswith('.gz')]
         ApplicationLogger.info(files_to_export)
         num_exported = 0
         for file_path in files_to_export:
             ApplicationLogger.info(
-                "Exporting {file_path} ({num_exported} / {total_files})".format(file_path, ++num_exported,
-                                                                                len(files_to_export)))
+                "Exporting {fp} ({ne} / {tf})".format(fp=file_path, ne=++num_exported, tf=len(files_to_export)))
             self.__upload(file_path, bucket)
             if self.__delete_exported:
                 os.remove(file_path)
