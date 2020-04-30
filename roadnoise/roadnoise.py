@@ -34,6 +34,7 @@ def main():
     finally:
         ApplicationLogger.info("Stopping roadnoise.")
         reporter.stop()
+    ApplicationLogger.info("Starting rollover")
 
     file_handler.doRollover()
     ApplicationLogger.info("finished rollover, starting export.")
