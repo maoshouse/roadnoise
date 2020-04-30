@@ -33,6 +33,7 @@ def main():
     finally:
         ApplicationLogger.info("Stopping roadnoise.")
         reporter.stop()
+        file_handler.doRollover()
 
     exit(0)
 
