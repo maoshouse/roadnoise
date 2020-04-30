@@ -17,11 +17,12 @@ class S3Exporter:
         ApplicationLogger.info("Exporting to bucket {b}".format(b=bucket))
         files_to_export = [join(directory, file) for file in os.listdir(directory) if file.endswith('.gz')]
         ApplicationLogger.info(files_to_export)
-        num_exported = 0
+        file_counter = 1
         for file_path in files_to_export:
             ApplicationLogger.info(
-                "Exporting {fp} ({ne} / {tf})".format(fp=file_path, ne=++num_exported, tf=len(files_to_export)))
+                "Exporting {fp} ({fc} / {tf})".format(fp=file_path, fc=file_counter, tf=len(files_to_export)))
             self.__upload(file_path, bucket)
+            file_counter += 1
             if self.__delete_exported:
                 os.remove(file_path)
 
