@@ -3,6 +3,7 @@ import serial
 
 from .device.usb_db_device import USBDbDevice
 from .device.usb_gps_device import USBGpsDevice
+from .exporter.s3_exporter import S3Exporter
 from .logging.application_logger import ApplicationLogger
 from .logging.dict_logger import DictLogger
 from .logging.gzip_timed_rotating_file_handler import GzipTimedRotatingFileHandler
@@ -33,8 +34,10 @@ def main():
     finally:
         ApplicationLogger.info("Stopping roadnoise.")
         reporter.stop()
-        file_handler.doRollover()
 
+    file_handler.doRollover()
+    s3_exporter = S3Exporter(delete_exported=True)
+    s3_exporter.export('logs/compressed', 'KtadIfknG1')
     exit(0)
 
 

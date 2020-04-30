@@ -9,7 +9,8 @@ from roadnoise.logging.application_logger import ApplicationLogger
 
 class S3Exporter:
     def __init__(self, delete_exported=False):
-        self.__s3 = boto3.resource('s3')
+        session = boto3.Session(profile_name='roadnoise')
+        self.__s3 = session.client('s3')
         self.__delete_exported = delete_exported
 
     def export(self, directory, bucket):
