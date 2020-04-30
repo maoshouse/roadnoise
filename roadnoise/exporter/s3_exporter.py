@@ -14,7 +14,9 @@ class S3Exporter:
         self.__delete_exported = delete_exported
 
     def export(self, directory, bucket):
+        ApplicationLogger.info("Exporting to bucket {bucket}".format(bucket))
         files_to_export = [join(directory, file) for file in os.listdir(directory) if file.endswith('.gz')]
+        ApplicationLogger.info(files_to_export)
         num_exported = 0
         for file_path in files_to_export:
             ApplicationLogger.info(
