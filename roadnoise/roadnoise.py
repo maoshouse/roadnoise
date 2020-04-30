@@ -37,7 +37,7 @@ def main():
 
     file_handler.doRollover()
     s3_exporter = S3Exporter(delete_exported=True)
-    s3_exporter.export('logs/compressed', 'KtadIfknG1')
+    s3_exporter.export('logs/compressed', 'ktadifkng1')
     exit(0)
 
 
