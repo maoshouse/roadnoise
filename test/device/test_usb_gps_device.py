@@ -5,7 +5,7 @@ from roadnoise.device.usb_gps_device import USBGpsDevice
 
 
 class TestUSBGpsDevice(unittest.TestCase):
-    VALID_GPRMC_LINE = b'$GPRMC,220516,A,5133.82,N,00042.24,W,173.8,231.8,130694,004.2,W,*70\r\n'
+    VALID_GPRMC_LINE = b'$GPRMC,220516,A,5133.82,N,00042.24,W,1.944,231.8,130694,004.2,W,*70\r\n'
     INVALID_GPRMC_LINE = b'$GPRMC,042223.434,V,,,,,,,140420,,,N*48\r\n'
     INVALID_NMEA_LINE = b'$GPGGA,042224.442,,,,,0,00,,,M,0.0,M,,0000*56\r\n'
     INCOMPLETE_GPRMC_LINE = b'$GPRMC,,A,4736.7610,N,12218.6808,W,2.36,237.70,150420,,,A*74\r\n'
@@ -17,7 +17,7 @@ class TestUSBGpsDevice(unittest.TestCase):
             'validity': 'A',
             'latitude': 51.3382,
             'longitude': -0.4224,
-            'speed': 173.8,
+            'speed': 1,
             'true_course': 231.8,
             'date_stamp': 130694
         }

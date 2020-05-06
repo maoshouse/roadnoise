@@ -47,12 +47,12 @@ class USBGpsDevice(Device):
                 'validity': read_value[2],
                 'latitude': latitude,
                 'longitude': longitude,
-                'speed': float(read_value[7]),
+                'speed': float(read_value[7]) / 1.944,
                 'true_course': float(read_value[8]),
                 'date_stamp': float(read_value[9]),
             }
         except ValueError:
             ApplicationLogger.error("ValueError for read value")
-            
+
     def __is_gprmc_valid(self, read_value):
         return self.GPRMC_OK == read_value[2]
