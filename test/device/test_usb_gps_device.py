@@ -15,10 +15,8 @@ class TestUSBGpsDevice(unittest.TestCase):
         'gps': {
             'time_stamp': 220516,
             'validity': 'A',
-            'latitude': 5133.82,
-            'latitude_hemisphere': 'N',
-            'longitude': 00042.24,
-            'longitude_hemisphere': 'W',
+            'latitude': 51.3382,
+            'longitude': -0.4224,
             'speed': 173.8,
             'true_course': 231.8,
             'date_stamp': 130694

@@ -1,3 +1,4 @@
+import json
 import logging
 
 # TODO pass in a Logger interface rather than build a python logger.
@@ -14,7 +15,7 @@ class DictLogger:
         if self.__is_valid_values(poller_values):
             log_line = {key: value for mapping in poller_values for key, value in mapping.items()}
             log_line['time'] = time.time_ns() // 1000
-            self.__logger.info(log_line)
+            self.__logger.info(json.dumps(log_line))
 
     def __is_valid_values(self, poller_values):
         return None not in poller_values
