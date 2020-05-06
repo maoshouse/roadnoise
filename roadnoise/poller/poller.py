@@ -30,7 +30,7 @@ class Poller:
         while self.__started:
             try:
                 value = self.__device.read()
-                ApplicationLogger.info('{}: Read: {}'.format(self.__device.name(), json.dumps(value)))
+                print('{}: Read: {}'.format(self.__device.name(), json.dumps(value)))
                 if value is not None:
                     self.__value.value = value
                 time.sleep(self.__period_seconds)
