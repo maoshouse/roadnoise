@@ -23,6 +23,7 @@ class USBGpsDevice(Device):
     def __get_gps_data_array(self):
         try:
             line = self.__device.readline()
+            print("GPS LINE: ", line)
             return [value.strip() for value in bytearray(line).decode().split(',')]
         except UnicodeDecodeError:
             ApplicationLogger.error(traceback.format_exc())
