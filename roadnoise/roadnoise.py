@@ -42,9 +42,8 @@ def main():
     try:
         ApplicationLogger.info("Starting rollover")
         file_handler.doRollover()
-        ApplicationLogger.info("finished rollover, starting export.")
+        ApplicationLogger.info("Finished rollover, starting export.")
         s3_exporter = S3Exporter(delete_exported=True)
-        ApplicationLogger.info(s3_exporter)
         s3_exporter.export('logs/compressed', 'ktadifkng1')
     except:
         ApplicationLogger.error(traceback.format_exc())
