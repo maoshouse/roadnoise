@@ -1,4 +1,3 @@
-import json
 import time
 import traceback
 from concurrent.futures.thread import ThreadPoolExecutor
@@ -30,7 +29,7 @@ class Poller:
         while self.__started:
             try:
                 value = self.__device.read()
-                print(self.__device.name(), json.dumps(value))
+                print(self.__device.name(), value)
                 if value is not None:
                     self.__value.value = value
                 time.sleep(self.__period_seconds)
