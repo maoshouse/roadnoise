@@ -1,3 +1,4 @@
+import math
 import traceback
 
 from .device import Device
@@ -35,13 +36,8 @@ class USBGpsDevice(Device):
             latitude_hemisphere = read_value[4]
             longitude_hemisphere = read_value[6]
 
-            latitude = float(read_value[3]) / 100
-            if latitude_hemisphere == 'S':
-                latitude *= -1
-            longitude = float(read_value[5]) / 100
-            if longitude_hemisphere == 'W':
-                longitude *= -1
-
+            latitude = self.__convert_to_decimal(float(read_value[3]), latitude_hemisphere)
+            longitude = self.__convert_to_decimal(float(read_value[5]), longitude_hemisphere)
             return {
                 'time_stamp': float(read_value[1]),
                 'validity': read_value[2],
@@ -53,6 +49,13 @@ class USBGpsDevice(Device):
             }
         except ValueError:
             ApplicationLogger.error("ValueError for read value")
+
+    def __convert_to_decimal(self, raw_dm, hemisphere):
+        dm = raw_dm / 100
+        decimal_coordinate = math.floor(dm) + (dm - math.floor(dm)) * 100 / 60
+        if hemisphere == 'S' or hemisphere == 'W':
+            decimal_coordinate *= -1
+        return decimal_coordinate
 
     def __is_gprmc_valid(self, read_value):
         return self.GPRMC_OK == read_value[2]
