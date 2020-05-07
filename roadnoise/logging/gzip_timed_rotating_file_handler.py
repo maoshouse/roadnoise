@@ -8,16 +8,18 @@ from pathlib import Path
 
 class GzipTimedRotatingFileHandler(TimedRotatingFileHandler):
 
-    def __init__(self, file_name_prefix, log_root, when, interval, backup_count):
+    def __init__(self, file_name_prefix, log_root, when, interval, backup_count, compress_on_rollover=True):
         super().__init__(self.__get_log_path(file_name_prefix + ".log", log_root), when=when, interval=interval,
                          backupCount=backup_count)
         self.__file_name_prefix = file_name_prefix
         self.__log_root = log_root
+        self.__compress_on_rollover = compress_on_rollover
 
     # https://medium.com/@rahulraghu94/overriding-pythons-timedrotatingfilehandler-to-compress-your-log-files-iot-c766a4ace240
     def doRollover(self):
         super().doRollover()
-        self.compress_logs()
+        if self.__compress_on_rollover:
+            self.compress_logs()
 
     def compress_logs(self):
         log_dir = dirname(self.baseFilename)

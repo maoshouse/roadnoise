@@ -26,7 +26,7 @@ def main():
     usb_gps_poller = Poller(usb_gps_device)
 
     pollers = [usb_db_poller, usb_gps_poller]
-    file_handler = GzipTimedRotatingFileHandler("roadnoise", "logs", "h", 1, 7)
+    file_handler = GzipTimedRotatingFileHandler("roadnoise", "logs", "h", 1, 7, compress_on_rollover=False)
     logger = DictLogger("RoadNoiseLog", file_handler)
     reporter = Reporter(pollers, logger, 1)
     reporter.start()
