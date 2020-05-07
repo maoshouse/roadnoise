@@ -15,7 +15,7 @@ class S3Exporter:
 
     def export(self, directory, bucket):
         ApplicationLogger.info("Exporting to bucket {b}".format(b=bucket))
-        files_to_export = [join(directory, file) for file in os.listdir(directory) if file.endswith('.gz')]
+        files_to_export = [join(directory, file) for file in os.listdir(directory)]
         ApplicationLogger.info(files_to_export)
         file_counter = 1
         for file_path in files_to_export:
